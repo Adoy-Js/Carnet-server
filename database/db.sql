@@ -1,0 +1,26 @@
+-- Deploy projet-peintre:create_table to pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+CREATE TABLE users (
+  id_user INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  pseudo VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(500) NOT NULL
+);
+
+CREATE TABLE movies (
+  id_movie INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE users_movies (
+  id_user_movie INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  date TIMESTAMP NOT NULL,
+  score INT NOT NULL, 
+  user_id INT REFERENCES "user"(id_user) ON DELETE CASCADE,
+  movie_id INT REFERENCES movie(id_movie) ON DELETE CASCADE
+);
+
+COMMIT;
