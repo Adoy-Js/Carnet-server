@@ -19,7 +19,7 @@ CREATE TABLE users_movies (
   id_user_movie INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   date TIMESTAMP NOT NULL,
   score INT NOT NULL, 
-  user_id INT REFERENCES "user"(id_user) ON DELETE CASCADE,
+  user_id INT REFERENCES users(id_user) ON DELETE CASCADE,
   movie_id INT REFERENCES movie(id_movie) ON DELETE CASCADE
 );
 

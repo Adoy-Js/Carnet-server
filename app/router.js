@@ -7,9 +7,6 @@ const userController = require("./controllers/userController")
 //liste de tous films pour tester
 router.get("/movie", movieController.getAll);
 
-//10 films les mieux notés
-router.get("/top", movieController.getBestsMovies);
-
 //le user veut se logger
 router.post("/signin", userController.login);
 
@@ -21,5 +18,8 @@ router.post("/signup", userController.add);
 //ajouter un film
 
 //liste des films d'un autre user
+
+//10 films les mieux notés
+router.get("/top", movieController.getBestsMovies);
 
 module.exports = router;
