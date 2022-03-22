@@ -13,7 +13,7 @@ const movieController = {
   getAll: async (req, res, next) => {
     try {
       const results = await Movie.findAll();
-      res.json(results);
+      return res.json({results:results, user:req.user});
     } catch (error) {
       throw new Error(error);
     }

@@ -4,8 +4,10 @@ const router = Router();
 const movieController = require("./controllers/movieController")
 const userController = require("./controllers/userController")
 
+const auth = require('./middlewares/auth')
+
 //liste de tous films pour tester
-router.get("/movie", movieController.getAll);
+router.get("/movie", auth.authenticate, movieController.getAll);
 
 //le user veut se logger
 router.post("/signin", userController.login);

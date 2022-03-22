@@ -1,8 +1,34 @@
 const bcrypt = require("bcrypt");
+
 const User = require("../models/User");
+const jwtServices = require("../services/jwt");
 
 const userController = {
-  login: () => {},
+  login: async (req, res, next) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ where: { email: email } });
+
+    if (!user) {
+      return res.json({ message: "Aucun compte ne correspond à cet email" });
+    }
+
+    const userPassword = user.password;
+
+    const compare = await bcrypt.compare(password, userPassword);
+
+    if (compare) {
+      const token = jwtServices.generate(user);
+      return res
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({ message: "Logged in successfully 😊 👌" });
+    } else {
+      return res.json({ message: "Mot de passe faux" });
+    }
+  },
 
   add: async (req, res, next) => {
     const { email, pseudo, password } = req.body;
@@ -10,13 +36,13 @@ const userController = {
       //voir qi personne n'a le meme email
       const userSameEmail = await User.findOne({ where: { email: email } });
       if (userSameEmail) {
-        res.json({ message: "Email deja existant" });
+        return res.json({ message: "Email deja existant" });
       }
 
       //voir si quelq'un a le meme pseudo
       const userSamePseudo = await User.findOne({ where: { pseudo: pseudo } });
       if (userSamePseudo) {
-        res.json({ message: "Pseudo deja existant" });
+        return res.json({ message: "Pseudo deja existant" });
       }
 
       const salt = await bcrypt.genSalt(10);
