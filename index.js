@@ -2,6 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const { sequelize } = require("./models");
+
+
 
 const router = require("./app/router");
 
@@ -20,6 +23,8 @@ app.use(
 
 app.use(router);
 
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Server started on http://localhost:${port}`);
+  await sequelize.authenticate();
+  console.log("Database connected !");
 });

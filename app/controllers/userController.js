@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
-
-const User = require("../models/User");
 const jwtServices = require("../services/jwt");
+
+const { User, Movie } = require("../../models");
 
 const userController = {
   login: async (req, res, next) => {
@@ -30,6 +30,13 @@ const userController = {
     }
   },
 
+  logout: (req, res, next) => {
+    return res
+      .clearCookie("access_token")
+      .status(200)
+      .json({ message: "Successfully logged out 😏 🍀" });
+  },
+
   add: async (req, res, next) => {
     const { email, pseudo, password } = req.body;
     try {
@@ -51,9 +58,10 @@ const userController = {
 
       const newUser = await User.create({ email, pseudo, password: hash });
 
-      return res.json({ user: { email, pseudo }, message: "user ajouté" });
+      return res.json({ user: newUser, message: "user ajouté" });
     } catch (error) {
       console.log(error);
+      return res.status(500).json({error:'Something went wrong'})
     }
   },
 };

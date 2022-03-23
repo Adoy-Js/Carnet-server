@@ -1,21 +1,77 @@
-const Movie = require("../models/Movie");
+const { User, Movie, User_movie } = require("../../models");
 
 const movieController = {
-  getBestsMovies: async (req, res, next) => {
+  // getBestsMovies: async (req, res, next) => {
+  //   try {
+  //     const results = await Movie.findBestsMovies();
+  //     res.json(results);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // },
+
+  addMovie: async (req, res, next) => {
+    const { userId, name, date, score } = req.body;
+
     try {
-      const results = await Movie.findBestsMovies();
-      res.json(results);
+      //on regarde si le film est deja dans la table movie
+      const movie = await Movie.findOne({ where: { name } });
+
+      if (!movie) {
+        console.log("creation du film dans la base");
+        const newMovie = await Movie.create({ name });
+        const movieWatched = await User_movie.create({
+          date,
+          score,
+          MovieId: newMovie.id,
+          UserId: userId,
+        });
+        return res.json({
+          movie: movieWatched,
+          messgae: "Le film a bien été ajouté à votre liste",
+        });
+      } else {
+        console.log("le film est deja en base");
+        const movieWatched = await User_movie.create({
+          date,
+          score,
+          MovieId: movie.id,
+          UserId: userId,
+        });
+        return res.json({
+          movie: movieWatched,
+          messgae: "Le film a bien été ajouté à votre liste",
+        });
+      }
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
+      return res.status(500).json({ error: "Something went wrong" });
     }
   },
 
-  getAll: async (req, res, next) => {
+  getMyMovies: async (req, res, next) => {
+    const { userId } = req.user;
+    const moviesUser = await User.findOne({
+      where: { id: userId },
+      include: {
+        model: Movie,
+      },
+    });
+
+    return res.json({
+      moviesUser,
+    });
+  },
+
+  deleteMovie: async (req, res, next) => {
+    const { userId } = req.user;
+    const { movieId } = req.params;
     try {
-      const results = await Movie.findAll();
-      return res.json({results:results, user:req.user});
+      await User_movie.destroy({ where: { MovieId: movieId, UserId: userId } });
+      return res.json({ message: "film supprimé !" });
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
+      return res.status(500).json({ error: "Something went wrong" });
     }
   },
 };
