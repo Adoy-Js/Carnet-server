@@ -12,8 +12,8 @@ router.post("/signup", userController.add);
 //le user veut se logger
 router.post("/signin", userController.login);
 
-//le user veut se déconnecter
-router.get("/signout", userController.logout);
+//on envoie le cookie
+router.get("/auth", userController.auth);
 
 //liste de mes films
 router.get("/list", auth.authenticate, movieController.getMyMovies);

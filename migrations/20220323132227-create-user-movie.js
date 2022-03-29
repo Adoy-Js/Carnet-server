@@ -23,6 +23,7 @@ module.exports = {
           model: "movies", // 'Movies' would also work
           key: "id",
         },
+        onDelete: "cascade",
       },
       UserId: {
         allowNull: false,
@@ -31,6 +32,7 @@ module.exports = {
           model: "users", // 'Movies' would also work
           key: "id",
         },
+        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

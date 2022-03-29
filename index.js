@@ -4,12 +4,10 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { sequelize } = require("./models");
 
-
-
 const router = require("./app/router");
 
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 const port = process.env.PORT;
 
 app.use(express.json());
@@ -20,6 +18,7 @@ app.use(
     extended: true,
   })
 );
+
 
 app.use(router);
 

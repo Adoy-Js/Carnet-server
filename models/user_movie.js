@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
           model: "Movie", // 'Movies' would also work
           key: "id",
         },
+        onDelete: "cascade",
       },
       UserId: {
         allowNull: false,
@@ -36,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
           model: "User", // 'Movies' would also work
           key: "id",
         },
+        onDelete: "cascade",
       },
     },
     {

@@ -18,23 +18,19 @@ const userController = {
     const compare = await bcrypt.compare(password, userPassword);
 
     if (compare) {
-      const token = jwtServices.generate(user);
-      return res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json({ message: "Logged in successfully 😊 👌" });
+      return res.status(200).json({
+        user: user,
+        message: "Logged in successfully 😊 👌",
+      });
     } else {
       return res.json({ message: "Mot de passe faux" });
     }
   },
 
-  logout: (req, res, next) => {
-    return res
-      .clearCookie("access_token")
-      .status(200)
-      .json({ message: "Successfully logged out 😏 🍀" });
+  auth: (req, res, next) => {
+    console.log(req.headers.user);
+    const token = jwtServices.generate(req.headers.user);
+    return res.cookie("token", token).json({ user: req.headers.user });
   },
 
   add: async (req, res, next) => {

@@ -7,14 +7,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({User}) {
+    static associate({ User }) {
       // define association here
-      this.belongsToMany(User, {through:"User_movie"})
+      this.belongsToMany(User, { through: "User_movie", onDelete: "cascade" });
     }
   }
   Movie.init(
     {
-      name:  {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
