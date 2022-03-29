@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwtServices = require("../services/jwt");
 
-const { User, Movie } = require("../../models");
+const { User } = require("../../models");
 
 const userController = {
   login: async (req, res, next) => {
@@ -61,7 +61,24 @@ const userController = {
       return res.json({ user: newUser, message: "user ajouté" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({error:'Something went wrong'})
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+  },
+
+  searchUser: async (req, res, next) => {
+    const { user } = req.body;
+
+    try {
+      const userWanted = await User.findOne({ where: { pseudo: user } });
+
+      const usertoReturn = {
+        user: userWanted.pseudo,
+      };
+
+      return res.json(usertoReturn);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Something went wrong" });
     }
   },
 };

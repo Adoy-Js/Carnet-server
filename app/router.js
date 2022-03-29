@@ -28,6 +28,12 @@ router.delete(
   movieController.deleteMovie
 );
 
+//rechercher un utilisateur afin de voir sa liste
+router.get("/search-user", auth.authenticate, userController.searchUser);
+
+//voir sa liste
+router.get("/list-user", auth.authenticate, movieController.getUserList);
+
 //liste des films d'un autre user
 
 //10 films les mieux notés

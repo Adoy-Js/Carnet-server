@@ -74,6 +74,26 @@ const movieController = {
       return res.status(500).json({ error: "Something went wrong" });
     }
   },
+
+  getUserList: async (req, res, next) => {
+    const { user } = req.body;
+
+    try {
+      const moviesUser = await User.findOne({
+        where: { pseudo: user },
+        include: {
+          model: Movie,
+        },
+      });
+
+      return res.json({
+        moviesUser,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+  },
 };
 
 module.exports = movieController;
