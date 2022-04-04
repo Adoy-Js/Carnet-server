@@ -20,7 +20,6 @@ const userController = {
     if (compare) {
       return res.status(200).json({
         user: user,
-        message: "Logged in successfully 😊 👌",
       });
     } else {
       return res.json({ message: "Mot de passe faux" });
@@ -28,9 +27,12 @@ const userController = {
   },
 
   auth: (req, res, next) => {
-    console.log(req.headers.user);
-    const token = jwtServices.generate(req.headers.user);
-    return res.cookie("token", token).json({ user: req.headers.user });
+    const userId = Number(req.headers.userid);
+    const token = jwtServices.generate(userId);
+    return res
+      .cookie("token", token)
+      .cookie("userId", userId)
+      .json({ user: req.headers.user });
   },
 
   add: async (req, res, next) => {

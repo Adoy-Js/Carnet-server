@@ -13,6 +13,8 @@ const movieController = {
   addMovie: async (req, res, next) => {
     const { userId, name, date, score } = req.body;
 
+    console.log(req.body);
+
     try {
       //on regarde si le film est deja dans la table movie
       const movie = await Movie.findOne({ where: { name } });
