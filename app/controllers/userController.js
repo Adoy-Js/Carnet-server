@@ -64,16 +64,13 @@ const userController = {
   },
 
   searchUser: async (req, res, next) => {
+    console.log(req.body);
     const { user } = req.body;
-
     try {
       const userWanted = await User.findOne({ where: { pseudo: user } });
 
-      const usertoReturn = {
-        user: userWanted.pseudo,
-      };
-
-      return res.json(usertoReturn);
+     
+      return res.json(userWanted);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Something went wrong" });

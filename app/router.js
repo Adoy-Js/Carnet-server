@@ -29,10 +29,10 @@ router.delete(
 );
 
 //rechercher un utilisateur afin de voir sa liste
-router.get("/search-user", auth.authenticate, userController.searchUser);
+router.post("/search-user", auth.authenticate, userController.searchUser);
 
 //voir sa liste
-router.get("/list-user", auth.authenticate, movieController.getUserList);
+router.get("/list-user/:user", auth.authenticate, movieController.getUserList);
 
 //liste des films d'un autre user
 

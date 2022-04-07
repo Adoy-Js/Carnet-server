@@ -78,7 +78,7 @@ const movieController = {
   },
 
   getUserList: async (req, res, next) => {
-    const { user } = req.body;
+    const { user } = req.params;
 
     try {
       const moviesUser = await User.findOne({
