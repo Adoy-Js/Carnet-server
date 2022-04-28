@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       score: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.NUMERIC,
         allowNull: false,
       },
       MovieId: {

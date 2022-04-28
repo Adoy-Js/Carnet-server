@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
       },
       score: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.NUMERIC,
         allowNull: false,
       },
       MovieId: {
